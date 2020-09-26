@@ -15,3 +15,8 @@ CREATE TABLE `employee_db`.`role` (
   `salary` VARCHAR(30) NULL,
   `department_id` INT NULL,
   PRIMARY KEY (`id`));
+
+CREATE TABLE `employee_db`.`department` (
+  `id` INT NOT NULL,
+  `name` VARCHAR(30) NOT NULL,
+  PRIMARY KEY (`id`));
