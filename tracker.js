@@ -152,7 +152,8 @@ function addEmployee() {
             if (error) throw error;
             // logic goes here
         });
-};
+});
+}
 
 function viewDepartments() {
     // prints departments to screen
