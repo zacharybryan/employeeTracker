@@ -26,7 +26,7 @@ function start() {
             name: "start",
             type: "list",
             message: "If this is your first entree start by entering a Department. Next a Role and then employees",
-            choices: ["DEPARTMENT", "ROLE", , "EMPLOYEE", "VIEW DEPARTMENTS", "VIEW ROLES", "UPDATE ROLES", "END",]
+            choices: ["DEPARTMENT", "ROLE", , "EMPLOYEE", "VIEW EMPLOYEES","VIEW DEPARTMENTS", "VIEW ROLES", "UPDATE ROLES", "END",]
         })
         .then(function (answer) {
             // based on their answer, either call the bid or the post functions
@@ -48,6 +48,9 @@ function start() {
             }
             else if (answer.start === "UPDATE ROLES") {
                 updateEmployeeRole();
+            }
+            else if (answer.start === "VIEW EMPLOYEES") {
+                viewEmployees();
             }
             else {
                 connection.end();
@@ -114,9 +117,37 @@ function addRole() {
 
 function addEmployee() {
     // (first_name, last_name, role_id, manager_id)
+    inquirer.prompt([
+        {
+            name: "first_name",
+            type: "input",
+            message: "What is the Employee's first name?"
+        },
+        {
+            name: "last_name",
+            type: "input",
+            message: "What is the Employee's last name?"
+        },
+        {
+            name: "role_id",
+            type: "input",
+            message: "What is the Employee's role?"
+        },
+        {
+            name: "manager_id",
+            type: "input",
+            message: "Who is the employee's Manager? N/A if none"
+        }
+    ])
+    .then(function(answer) {
     connection.query(
-        'query',
-        [queryParameters],
+        'INSERT INTO employees SET ?',
+        {
+            first_name: answer.first_name,
+            last_name: answer.last_name,
+            role_id: 1, // need help here
+            manager_id: 1
+        },
         function (error, data) {
             if (error) throw error;
             // logic goes here
