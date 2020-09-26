@@ -1,5 +1,5 @@
 var mysql = require('mysql');
-var inquire = require('inquire');
+var inquirer = require('inquirer');
 
 const connectionConfig = {
     host: "localhost",
@@ -16,49 +16,154 @@ connection.connect(function (err) {
         console.error(`error connecting: ${err.stack}`);
         return;
     }
-    console.log(`connected as id  ${connection.threadId}`);
-    addDepartment();
+    start();
 });
 
 function start() {
     // inquire start up page with options that lead to functions
+    inquirer
+        .prompt({
+            name: "start",
+            type: "list",
+            message: "If this is your first entree start by entering a Department. Next a Role and then employees",
+            choices: ["DEPARTMENT", "ROLE", , "EMPLOYEE", "VIEW DEPARTMENTS", "VIEW ROLES", "UPDATE ROLES", "END",]
+        })
+        .then(function (answer) {
+            // based on their answer, either call the bid or the post functions
+            if (answer.start === "DEPARTMENT") {
+                addDepartment();
+            }
+            else if (answer.start === "ROLE") {
+                addRole();
+
+            }
+            else if (answer.start === "EMPLOYEE") {
+                addEmployee();
+            }
+            else if (answer.start === "VIEW DEPARTMENTS") {
+                viewDepartments();
+            }
+            else if (answer.start === "VIEW ROLES") {
+                viewRoles();
+            }
+            else if (answer.start === "UPDATE ROLES") {
+                updateEmployeeRole();
+            }
+            else {
+                connection.end();
+            }
+        });
 };
 
 function addDepartment() {
     // (id, name)
-    connection.query(
-        'INSERT INTO department SET ?',
+    inquirer.prompt([
         {
-            name: "Doctors"
-        },
-        function (error, data) {
-            if (error) throw error;
-            console.table("Doctors department added");
-
+            name: "department",
+            type: "input",
+            message: "What is the Department's name?"
+        }
+    ])
+        .then(function (answer) {
+            connection.query(
+                'INSERT INTO department SET ?',
+                {
+                    name: answer.department
+                },
+                function (error, data) {
+                    if (error) throw error;
+                    console.log("Department added")
+                    start();
+                }
+            );
         });
-};
+}
 
 function addRole() {
     // (id, title, salary, department_id)
-};
+    inquirer.prompt([
+        {
+            name: "title",
+            type: "input",
+            message: "What is the Role name?"
+        },
+        {
+            name: "salary",
+            type: "input",
+            message: "What is the Salary?"
+        }
+    ])
+        .then(function (answer) {
+            connection.query(
+                'INSERT INTO role  SET ?',
+                {
+                    title: answer.title,
+                    salary: answer.salary,
+                    department_id: 1 // need help here
+                },
+
+                function (error, data) {
+                    if (error) throw error;
+                    // logic goes here
+                    console.log("Role Added")
+                    start();
+                }
+            );
+        });
+}
 
 function addEmployee() {
     // (first_name, last_name, role_id, manager_id)
+    connection.query(
+        'query',
+        [queryParameters],
+        function (error, data) {
+            if (error) throw error;
+            // logic goes here
+        });
 };
 
 function viewDepartments() {
     // prints departments to screen
+    connection.query(
+        'query',
+        [queryParameters],
+        function (error, data) {
+            if (error) throw error;
+            // logic goes here
+        });
 };
 
 function viewRoles() {
     // prints roles to screen
+    connection.query(
+        'query',
+        [queryParameters],
+        function (error, data) {
+            if (error) throw error;
+            // logic goes here
+        });
 };
 
 function viewEmployees() {
     // prints current roster to screen use console.table
+    connection.query(
+        'SELECT * FROM employees',
+        [queryParameters],
+        function (error, data) {
+            if (error) throw error;
+            console.table(employees) // display table??? 
+        });
 };
 
 
 function updateEmployeeRole() {
     // updates employee's role 
+    connection.query(
+        'query',
+        [queryParameters],
+        function (error, data) {
+            if (error) throw error;
+            // logic goes here
+        });
 };
