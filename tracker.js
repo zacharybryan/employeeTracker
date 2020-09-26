@@ -18,3 +18,36 @@ connection.connect(function (err) {
     }
     console.log(`connected as id  ${connection.threadId}`);
 });
+
+function readRoster() {
+    
+};
+
+function addDepartment() {
+    
+};
+
+function addRole() {
+    
+};
+
+function addEmployee() {
+    
+};
+
+function viewDepartments(params) {
+    
+};
+
+function viewRoles() {
+    
+};
+
+function viewEmployees() {
+    
+};
+
+
+function updateEmployeeRole() {
+    
+};
