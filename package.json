@@ -1,0 +1,29 @@
+{
+  "name": "employeetracker",
+  "version": "1.0.0",
+  "description": "This is an HR app to help keep account of employees.",
+  "main": "tracker.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql": "^2.18.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node tracker.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zacharybryan/employeeTracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zacharybryan/employeeTracker/issues"
+  },
+  "homepage": "https://github.com/zacharybryan/employeeTracker#readme"
+}
