@@ -103,9 +103,9 @@ function addRole() {
                     type: "input",
                     message: "What is the Salary?"
                 }, {
-                    name: "role",
+                    name: "department_id",
                     type: "list",
-                    message: "What is the Roll",
+                    message: "What is the Department",
                     choices: departments
                 },
             ])
@@ -115,7 +115,7 @@ function addRole() {
                         {
                             title: answer.title,
                             salary: answer.salary,
-                            department_id: answer.role
+                            department_id: answer.department
                         },
 
                         function (error, data) {
@@ -133,12 +133,11 @@ function addRole() {
 function addEmployee() {
     // (first_name, last_name, role_id, manager_id)
     connection.query(
-        "SELECT * FROM employees",
+        "SELECT * FROM role",
 
         function (error, data) {
             if (error) throw error;
-            const departments = data.reduce(function (array, value) { array.push({ "value": value.id, "name": value.name }); return array }, []);
-
+            const roles = data.reduce(function (array, value) { array.push({ "value": value.id, "name": value.title }); return array }, []);
             inquirer.prompt([
                 {
                     name: "first_name",
@@ -154,14 +153,15 @@ function addEmployee() {
                     name: "role_id",
                     type: "list",
                     message: "What is the Employee's role?",
-                    choices: departments
+                    choices: roles
                 },
                 {
                     name: "manager_id",
                     type: "input",
-                    message: "Who is the employee's Manager? N/A if none"
+                    message: "Who is the employee's Manager? Press return if N/A"
                 },
             ])
+
         .then(function (answer) {
             connection.query(
                 'INSERT INTO employees SET ?',
@@ -172,16 +172,17 @@ function addEmployee() {
                     manager_id: answer.manager_id
                 },
 
-                function (error, data) {
+                function (error, employees) {
                     if (error) throw error;
                     // logic goes here
                     console.log("Employee Added")
+                    // console.table(employees)
                     start();
                 }
             );
         });
     });
-}
+};
 
 function viewDepartments() {
     // prints departments to screen
@@ -221,9 +222,8 @@ function updateEmployeeRole() {
     // updates employee's role 
     connection.query(
         'query',
-        [queryParameters],
         function (error, data) {
             if (error) throw error;
-            // logic goes here
+            start();
         });
 };
